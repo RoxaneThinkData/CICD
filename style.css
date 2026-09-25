@@ -1,0 +1,153 @@
+:root {
+  --papier: #FBF6F1;
+  --encre: #2A1B2D;
+  --rose: #F3D3DA;
+  --gris: #6E6170;
+  --etiquette: #FFFFFF;
+  --titre: "Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --texte: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+body {
+  /* Compteurs CSS : le total s'affiche tout seul dans le pied de page */
+  counter-reset: sacs regions;
+  background: var(--papier);
+  color: var(--encre);
+  font-family: var(--texte);
+  line-height: 1.5;
+}
+
+.sprites { display: none; }
+
+/* ---------- En-tête ---------- */
+.entete {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem) 2rem;
+  max-width: 70rem;
+  margin: 0 auto;
+}
+.entete h1 {
+  font-family: var(--titre);
+  font-weight: 800;
+  font-size: clamp(3.2rem, 11vw, 8rem);
+  line-height: .9;
+  letter-spacing: -.03em;
+}
+.entete p {
+  margin-top: 1.25rem;
+  max-width: 34rem;
+  font-size: 1.15rem;
+  color: var(--gris);
+}
+
+main {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 4rem) 6rem;
+}
+
+/* ---------- Région = un tampon de passeport ---------- */
+.region {
+  counter-increment: regions;
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: 2rem;
+  align-items: start;
+  padding: 3rem 0;
+  border-top: 2px dashed color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.tampon {
+  position: sticky;
+  top: 1.5rem;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 1rem;
+  border: 4px double var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-family: var(--titre);
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.1;
+  text-align: center;
+  transform: rotate(-8deg);
+}
+.tampon span {
+  display: block;
+  padding: .5rem .25rem;
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+/* ---------- Sac = étiquette de bagage ---------- */
+.sacs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1.5rem;
+}
+
+.sac {
+  counter-increment: sacs;
+  position: relative;
+  padding: 2.75rem 1.5rem 1.75rem;
+  background: var(--etiquette);
+  clip-path: polygon(14% 0, 86% 0, 100% 9%, 100% 100%, 0 100%, 0 9%);
+  border-bottom: 6px solid var(--accent);
+}
+/* Le trou de l'étiquette */
+.sac::before {
+  content: "";
+  position: absolute;
+  top: .9rem;
+  left: 50%;
+  width: .9rem;
+  height: .9rem;
+  margin-left: -.45rem;
+  border-radius: 50%;
+  background: var(--papier);
+  box-shadow: 0 0 0 3px var(--rose);
+}
+
+.visuel {
+  display: block;
+  width: 100%;
+  height: 9rem;
+  margin-bottom: 1rem;
+  background: color-mix(in srgb, var(--accent) 8%, var(--papier));
+}
+
+.sac h3 {
+  font-family: var(--titre);
+  font-size: 1.4rem;
+  line-height: 1.15;
+}
+.marque { font-weight: 600; color: var(--accent); }
+.lieu { font-size: .95rem; color: var(--gris); margin-bottom: .75rem; }
+.detail { font-size: .95rem; }
+
+/* ---------- Barre de statut (utile pour vérifier chaque déploiement) ---------- */
+.statut {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  justify-content: center;
+  padding: .9rem 1rem;
+  background: var(--encre);
+  color: var(--papier);
+  font-size: 1rem;
+}
+.statut strong { font-family: var(--titre); font-size: 1.2rem; }
+.nb-sacs::before { content: counter(sacs); }
+.nb-regions::before { content: counter(regions); }
+.version { color: var(--rose); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 700px) {
+  .region { grid-template-columns: 1fr; }
+  .tampon { position: static; width: 10rem; }
+}
