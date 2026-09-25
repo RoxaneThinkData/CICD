@@ -1,0 +1,53 @@
+name: CI/CD - Sacs du monde
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  # Dossier qui contient index.html 
+  SITE_DIR: .
+
+jobs:
+  verifier:
+    name: Vérifier le HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Les fichiers essentiels existent
+        run: |
+          test -f "$SITE_DIR/index.html"
+          test -f "$SITE_DIR/style.css"
+
+      - name: Lint HTML
+        run: npx --yes htmlhint "$SITE_DIR/index.html"
+
+      - name: Compter les sacs
+        run: echo "Sacs dans la page :" $(grep -c 'class="sac"' "$SITE_DIR/index.html")
+
+  deployer:
+    name: Déployer sur GitHub Pages
+    needs: verifier
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.SITE_DIR }}
+      - id: deploiement
+        uses: actions/deploy-pages@v4
