@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Dossier qui contient index.html 
+  
   SITE_DIR: .
 
 jobs:

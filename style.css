@@ -11,7 +11,7 @@
 * { box-sizing: border-box; margin: 0; }
 
 body {
-  /* Compteurs CSS : le total s'affiche tout seul dans le pied de page */
+ 
   counter-reset: sacs regions;
   background: var(--papier);
   color: var(--encre);
@@ -21,7 +21,7 @@ body {
 
 .sprites { display: none; }
 
-/* ---------- En-tête ---------- */
+
 .entete {
   padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem) 2rem;
   max-width: 70rem;
@@ -47,7 +47,7 @@ main {
   padding: 0 clamp(1.25rem, 5vw, 4rem) 6rem;
 }
 
-/* ---------- Région = un tampon de passeport ---------- */
+
 .region {
   counter-increment: regions;
   display: grid;
@@ -82,7 +82,7 @@ main {
   border-bottom: 2px solid var(--accent);
 }
 
-/* ---------- Sac = étiquette de bagage ---------- */
+
 .sacs {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
@@ -97,7 +97,7 @@ main {
   clip-path: polygon(14% 0, 86% 0, 100% 9%, 100% 100%, 0 100%, 0 9%);
   border-bottom: 6px solid var(--accent);
 }
-/* Le trou de l'étiquette */
+
 .sac::before {
   content: "";
   position: absolute;
@@ -128,7 +128,6 @@ main {
 .lieu { font-size: .95rem; color: var(--gris); margin-bottom: .75rem; }
 .detail { font-size: .95rem; }
 
-/* ---------- Barre de statut (utile pour vérifier chaque déploiement) ---------- */
 .statut {
   position: sticky;
   bottom: 0;
@@ -146,7 +145,6 @@ main {
 .nb-regions::before { content: counter(regions); }
 .version { color: var(--rose); }
 
-/* ---------- Mobile ---------- */
 @media (max-width: 700px) {
   .region { grid-template-columns: 1fr; }
   .tampon { position: static; width: 10rem; }
